@@ -21,7 +21,7 @@ class EmailSender:
         # you == the recipient's email address
         msg['Subject'] = self.emailSubject
         msg['From'] = 'suqhprojects@gmail.com'
-        msg['To'] = self.emailRecipients # can be a list of recipients
+        msg['To'] = ','.join(self.emailRecipients) # can be a list of one or more recipients (concat into a str)
 
         # Send the message via our own SMTP server.
         s = smtplib.SMTP('smtp.gmail.com', 587)
