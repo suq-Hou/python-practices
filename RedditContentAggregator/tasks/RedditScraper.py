@@ -15,8 +15,8 @@ class RedditScraper:
         self.basic_url = "https://www.reddit.com"
         self.subreddit = subreddit_name
         self.full_url = self.basic_url + "/r/" + self.subreddit
-        self.pages_scrape = total_pages_scrape # total number of pages needed to be scraped
-        self.total_posts = total_posts # total posts needed
+        self.pages_scrape = int(total_pages_scrape) # total number of pages needed to be scraped
+        self.total_posts = int(total_posts) # total posts needed
         self.upvoted_posts = [] # list to store top posts
 
     def scraper(self):
@@ -27,7 +27,7 @@ class RedditScraper:
         attrs = {'class': 'thing', 'data-subreddit': self.subreddit}
 
         counter = self.pages_scrape
-        while (counter > 0):
+        while counter > 0:
             logging.info("Page #: " + str(self.pages_scrape - counter + 1))
             for post in soup.find_all('div', attrs=attrs):
                 # title of the post
@@ -69,7 +69,7 @@ class RedditScraper:
         # link the title to its corresponding url
         self.upvoted_posts['url'] = [f'<a href="{i}">Link</a>'for i in self.upvoted_posts['url']]
 
-        return self.upvoted_posts.to_html(escape=False)  # convert list -> pandas data frame -> html object
+        return self.upvoted_posts, self.upvoted_posts.to_html(escape=False)  # convert list -> pandas data frame -> html object
 
     def string_to_int(self, number):  # convert digit strings (with possible abbreviation at the end) to int
         letter_abbrev_converter = {'k': 1000, 'm': 1000000, 'b': 1000000000}
